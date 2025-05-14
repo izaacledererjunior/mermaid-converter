@@ -1,0 +1,11 @@
+/* Oculta SVGs de erro do Mermaid automaticamente */
+svg#mermaid-diagram[aria-roledescription="error"],
+div#dmermaid-diagram svg[aria-roledescription="error"] {
+  display: none !important;
+}
+
+/* Impede overflow em SVGs do mermaid */
+.diagram-preview svg {
+  max-width: 100%;
+  height: auto;
+}

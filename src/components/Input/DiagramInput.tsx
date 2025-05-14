@@ -10,7 +10,7 @@ const DiagramInput: React.FC<DiagramInputProps> = ({ diagramCode, setDiagramCode
   // Remove qualquer estado automático de erro
   const hasError = false; // Controle manual do estado de erro, se necessário
 
-  
+
 
 
   return (

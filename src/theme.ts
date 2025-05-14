@@ -3,21 +3,21 @@ import { createTheme } from '@mui/material/styles';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#0056B3', // Azul real para botões primários
+      main: '#6C7A89', // Cinza suave para botões primários
     },
     secondary: {
-      main: '#8A2BE2', // Roxo vibrante para links e destaques
+      main: '#BFC9CA', // Gelo suave para destaques
     },
     background: {
-      default: '#1F1F1F', // Fundo cinza mais escuro
-      paper: '#292929', // Fundo escuro para papéis
+      default: '#F7F9FA', // Quase branco, muito suave
+      paper: '#FFFFFF',   // Branco puro para cards/papéis
     },
     text: {
-      primary: '#FFFFFF', // Texto branco
-      secondary: '#B0B0B0', // Texto cinza claro para menos destaque
+      primary: '#2C3E50', // Cinza escuro para contraste suave
+      secondary: '#7B8A8B', // Cinza claro para menos destaque
     },
     error: {
-      main: '#FF0000', // Vermelho vibrante para mensagens de erro
+      main: '#E57373', // Vermelho suave para mensagens de erro
     },
   },
   typography: {
@@ -25,14 +25,14 @@ const theme = createTheme({
     h3: {
       fontSize: '2.5rem',
       '@media (min-width:1200px)': {
-        fontSize: '3rem', // Ajuste para desktops grandes
+        fontSize: '3rem',
       },
     },
     h5: {
       fontSize: '1.5rem',
     },
     button: {
-      textTransform: 'none', // Remove transformação para caixa alta em botões
+      textTransform: 'none',
     },
   },
 });

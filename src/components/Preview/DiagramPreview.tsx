@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Box } from '@mui/material';
 import mermaid from 'mermaid';
-import DownloadButtons from './DownloadButtons';
+import DownloadButtons from '../Buttons/DownloadButtons';
 
 interface DiagramPreviewProps {
   diagramCode: string;
   setSvgContent: (svg: string | null) => void;
 }
+
 
 const DiagramPreview: React.FC<DiagramPreviewProps> = ({ diagramCode, setSvgContent }) => {
   const diagramRef = useRef<HTMLDivElement>(null);
@@ -15,6 +16,7 @@ const DiagramPreview: React.FC<DiagramPreviewProps> = ({ diagramCode, setSvgCont
 
   useEffect(() => {
     if (diagramCode && diagramRef.current) {
+
       try {
         const renderDiagram = async () => {
           const { svg } = await mermaid.render('mermaid-diagram', diagramCode);
@@ -94,3 +96,5 @@ const DiagramPreview: React.FC<DiagramPreviewProps> = ({ diagramCode, setSvgCont
 };
 
 export default DiagramPreview;
+
+

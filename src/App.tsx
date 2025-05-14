@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Box, Typography, Paper, Container } from '@mui/material';
-import DiagramInput from './components/DiagramInput';
-import DiagramPreview from './components/DiagramPreview';
+import DiagramInput from './components/Input/DiagramInput';
+import DiagramPreview from './components/Preview/DiagramPreview';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from './theme'; // Importa o tema ajustado
+import { Header } from './components/Header/Header'; // Importa o Header
 
 const App: React.FC = () => {
   const [diagramCode, setDiagramCode] = useState<string>(
@@ -17,11 +18,12 @@ const App: React.FC = () => {
 
   return (
     <ThemeProvider theme={theme}>
+      <Header />
       <Box
         sx={{
           bgcolor: 'background.default',
-          minHeight: '100vh',
-          height: '100vh',
+          minHeight: '90vh',
+          height: '90vh',
           width: '100vw',
           overflow: 'hidden',
           display: 'flex',
@@ -29,6 +31,7 @@ const App: React.FC = () => {
           justifyContent: 'center',
         }}
       >
+
         <Container
           maxWidth={false}
           sx={{
@@ -39,18 +42,6 @@ const App: React.FC = () => {
             justifyContent: 'center',
           }}
         >
-          <Typography
-            variant="h3"
-            color="text.primary"
-            textAlign="center"
-            gutterBottom
-            sx={{
-              marginBottom: 4,
-            }}
-          >
-            Conversor Mermaid
-          </Typography>
-
           <Box
             sx={{
               display: 'flex',
@@ -95,6 +86,7 @@ const App: React.FC = () => {
                 borderRadius: 2,
                 display: 'flex',
                 flexDirection: 'column',
+                alignItems: 'center',
                 minHeight: 0,
                 height: '100%',
                 overflow: 'auto',
@@ -103,7 +95,8 @@ const App: React.FC = () => {
               <Typography variant="h5" color="text.primary" gutterBottom>
                 Pré-visualização
               </Typography>
-              <DiagramPreview diagramCode={diagramCode} setSvgContent={setSvgContent} />
+              <DiagramPreview
+                diagramCode={diagramCode} setSvgContent={setSvgContent} />
             </Paper>
           </Box>
         </Container>
