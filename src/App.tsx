@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, Paper, Container } from '@mui/material';
+import { Box, Typography, Paper, Container, IconButton, Drawer } from '@mui/material';
+import ChatIcon from '@mui/icons-material/Chat';
 import DiagramInput from './components/Input/DiagramInput';
 import DiagramPreview from './components/Preview/DiagramPreview';
 import { ThemeProvider } from './context/ThemeContext';
 import { Header } from './components/Header/Header';
+import AIChat from './components/Chat/ChatIa';
 
 const App: React.FC = () => {
   const [diagramCode, setDiagramCode] = useState<string>('');
@@ -33,6 +35,14 @@ const App: React.FC = () => {
     setDiagramCode(initialCode);
   }, []);
 
+  const handleInsertCode = (code: string) => {
+    setDiagramCode(code);
+    // Opcional: fechar o chat após inserir
+    // setChatOpen(false);
+  };
+
+
+  const [chatOpen, setChatOpen] = useState<boolean>(false);
   return (
     <ThemeProvider>
       <Header />
@@ -117,6 +127,46 @@ const App: React.FC = () => {
             </Paper>
           </Box>
         </Container>
+
+        {/* Botão flutuante para abrir o chat */}
+        <IconButton
+          color="primary"
+          aria-label="chat com assistente"
+          sx={{
+            position: 'fixed',
+            bottom: 24,
+            right: 24,
+            width: 56,
+            height: 56,
+            backgroundColor: 'primary.main',
+            color: 'white',
+            '&:hover': {
+              backgroundColor: 'primary.dark',
+            },
+            boxShadow: 3,
+          }}
+          onClick={() => setChatOpen(true)}
+        >
+          <ChatIcon />
+        </IconButton>
+
+        {/* Drawer lateral para o chat */}
+        <Drawer
+          anchor="right"
+          open={chatOpen}
+          onClose={() => setChatOpen(false)}
+          sx={{
+            '& .MuiDrawer-paper': {
+              width: { xs: '100%', sm: 400 },
+              boxSizing: 'border-box',
+            },
+          }}
+        >
+          <AIChat
+            diagramCode={diagramCode}
+            onInsertCode={handleInsertCode}
+          />
+        </Drawer>
       </Box>
     </ThemeProvider>
   );
