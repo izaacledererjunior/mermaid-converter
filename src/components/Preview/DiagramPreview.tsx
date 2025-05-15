@@ -8,33 +8,31 @@ interface DiagramPreviewProps {
   setSvgContent: (svg: string | null) => void;
 }
 
-
 const DiagramPreview: React.FC<DiagramPreviewProps> = ({ diagramCode, setSvgContent }) => {
   const diagramRef = useRef<HTMLDivElement>(null);
-  const [error, setError] = useState<string | null>(null); // Estado para mensagens de erro
-  const [svgContent, setLocalSvgContent] = useState<string | null>(null); // Local SVG state for passing to DownloadButtons
+  const [error, setError] = useState<string | null>(null);
+  const [svgContent, setLocalSvgContent] = useState<string | null>(null);
 
   useEffect(() => {
     if (diagramCode && diagramRef.current) {
-
       try {
         const renderDiagram = async () => {
           const { svg } = await mermaid.render('mermaid-diagram', diagramCode);
           if (diagramRef.current) {
             diagramRef.current.innerHTML = svg;
-            setSvgContent(svg); // Salva o SVG no estado global (via prop)
-            setLocalSvgContent(svg); // Salva o SVG no estado local
-            setError(null); // Limpa o estado de erro
+            setSvgContent(svg);
+            setLocalSvgContent(svg);
+            setError(null);
           }
         };
 
         renderDiagram();
       } catch (e) {
         if (diagramRef.current) {
-          diagramRef.current.innerHTML = ''; // Limpa qualquer conteúdo anterior
-          setError('Erro ao renderizar o diagrama. Verifique o código Mermaid.'); // Define uma mensagem de erro
-          setSvgContent(null); // Limpa o SVG no caso de erro
-          setLocalSvgContent(null); // Limpa o SVG local no caso de erro
+          diagramRef.current.innerHTML = '';
+          setError('Erro ao renderizar o diagrama. Verifique o código Mermaid.');
+          setSvgContent(null);
+          setLocalSvgContent(null);
         }
       }
     }
@@ -49,16 +47,15 @@ const DiagramPreview: React.FC<DiagramPreviewProps> = ({ diagramCode, setSvgCont
         bgcolor: 'background.paper',
         borderRadius: 2,
         position: 'relative',
-        overflow: 'hidden', // Impede que o conteúdo ultrapasse o contêiner
+        overflow: 'hidden',
       }}
     >
-      {/* Área do Preview com rolagem */}
       <Box
         ref={diagramRef}
         className="diagram-preview"
         sx={{
           flex: 1,
-          overflow: 'auto', // Permite rolagem dentro do preview
+          overflow: 'auto',
           p: 2,
         }}
       >
@@ -75,7 +72,6 @@ const DiagramPreview: React.FC<DiagramPreviewProps> = ({ diagramCode, setSvgCont
         )}
       </Box>
 
-      {/* Botões de Download reutilizando o DownloadButtons */}
       {svgContent && (
         <Box
           sx={{
@@ -96,5 +92,3 @@ const DiagramPreview: React.FC<DiagramPreviewProps> = ({ diagramCode, setSvgCont
 };
 
 export default DiagramPreview;
-
-

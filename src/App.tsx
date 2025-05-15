@@ -1,37 +1,56 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Typography, Paper, Container } from '@mui/material';
 import DiagramInput from './components/Input/DiagramInput';
 import DiagramPreview from './components/Preview/DiagramPreview';
-import { ThemeProvider } from '@mui/material/styles';
-import theme from './theme'; // Importa o tema ajustado
-import { Header } from './components/Header/Header'; // Importa o Header
+import { ThemeProvider } from './context/ThemeContext';
+import { Header } from './components/Header/Header';
 
 const App: React.FC = () => {
-  const [diagramCode, setDiagramCode] = useState<string>(
-    `graph TD
-    A[Start] --> B{Decision?}
-    B -->|Yes| C[Do something]
-    B -->|No| D[Stop]
-    C --> A`
-  );
+  const [diagramCode, setDiagramCode] = useState<string>('');
   const [svgContent, setSvgContent] = useState<string | null>(null);
 
+  useEffect(() => {
+    const initialCode = `graph TD
+      Client([Cliente]) --> API[API REST]
+
+      API --> Auth[Autenticação]
+      API --> Service[Serviço Principal]
+
+      Auth --> Cache[(Redis)]
+      Service --> DB[(Banco de Dados)]
+
+      Service --> Queue[Fila de Tarefas]
+      Queue --> Worker[Processador]
+      Worker --> Email[Serviço de Email]
+
+      classDef client fill:#a9dcf4,stroke:#0277bd,stroke-width:2px
+      classDef service fill:#bbdefb,stroke:#0277bd,stroke-width:1px
+      classDef database fill:#e1f5fe,stroke:#0277bd,stroke-width:1px,shape:cylinder
+
+      class Client client
+      class API,Auth,Service,Worker,Email service
+      class DB,Cache,Queue database`;
+    setDiagramCode(initialCode);
+  }, []);
+
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider>
       <Header />
       <Box
         sx={{
           bgcolor: 'background.default',
           minHeight: '90vh',
-          height: '90vh',
+          height: 'calc(100vh - 64px)',
           width: '100vw',
           overflow: 'hidden',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          mb: 4,
+          pt: 2,
+          pb: 6,
         }}
       >
-
         <Container
           maxWidth={false}
           sx={{
@@ -54,17 +73,17 @@ const App: React.FC = () => {
               overflow: 'hidden',
             }}
           >
-            {/* Editor */}
             <Paper
               sx={{
                 flex: 1,
                 p: 2,
                 bgcolor: 'background.paper',
-                border: '1px solid #4F4F4F', // Borda mais contrastante
+                border: '1px solid #4F4F4F',
                 borderRadius: 2,
                 display: 'flex',
                 flexDirection: 'column',
                 mb: { xs: 2, md: 0 },
+                mt: { xs: 2, md: 0 },
                 minHeight: 0,
                 height: '100%',
                 overflow: 'hidden',
@@ -76,13 +95,12 @@ const App: React.FC = () => {
               <DiagramInput diagramCode={diagramCode} setDiagramCode={setDiagramCode} />
             </Paper>
 
-            {/* Pré-visualização */}
             <Paper
               sx={{
                 flex: 1,
                 p: 2,
                 bgcolor: 'background.paper',
-                border: '1px solid #4F4F4F', // Borda mais contrastante
+                border: '1px solid #4F4F4F',
                 borderRadius: 2,
                 display: 'flex',
                 flexDirection: 'column',
@@ -95,8 +113,7 @@ const App: React.FC = () => {
               <Typography variant="h5" color="text.primary" gutterBottom>
                 Pré-visualização
               </Typography>
-              <DiagramPreview
-                diagramCode={diagramCode} setSvgContent={setSvgContent} />
+              <DiagramPreview diagramCode={diagramCode} setSvgContent={setSvgContent} />
             </Paper>
           </Box>
         </Container>

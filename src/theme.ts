@@ -1,40 +1,43 @@
 import { createTheme } from '@mui/material/styles';
 
-const theme = createTheme({
+export const lightTheme = createTheme({
   palette: {
+    mode: 'light',
     primary: {
-      main: '#6C7A89', // Cinza suave para botões primários
+      main: '#2196f3',
     },
     secondary: {
-      main: '#BFC9CA', // Gelo suave para destaques
+      main: '#f50057',
     },
     background: {
-      default: '#F7F9FA', // Quase branco, muito suave
-      paper: '#FFFFFF',   // Branco puro para cards/papéis
+      default: '#f5f5f5',
+      paper: '#ffffff',
     },
     text: {
-      primary: '#2C3E50', // Cinza escuro para contraste suave
-      secondary: '#7B8A8B', // Cinza claro para menos destaque
-    },
-    error: {
-      main: '#E57373', // Vermelho suave para mensagens de erro
-    },
-  },
-  typography: {
-    fontFamily: 'Roboto, Arial, sans-serif',
-    h3: {
-      fontSize: '2.5rem',
-      '@media (min-width:1200px)': {
-        fontSize: '3rem',
-      },
-    },
-    h5: {
-      fontSize: '1.5rem',
-    },
-    button: {
-      textTransform: 'none',
+      primary: '#333333',
+      secondary: '#666666',
     },
   },
 });
 
-export default theme;
+export const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#90caf9',
+    },
+    secondary: {
+      main: '#f48fb1',
+    },
+    background: {
+      default: '#121212',
+      paper: '#1e1e1e',
+    },
+    text: {
+      primary: '#ffffff',
+      secondary: '#b0b0b0',
+    },
+  },
+});
+
+export default lightTheme;

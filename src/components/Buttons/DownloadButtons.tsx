@@ -18,10 +18,10 @@ const DownloadButtons: React.FC<DownloadButtonsProps> = ({ svgContent }) => {
     const diagramElement = document.querySelector('.diagram-preview') as HTMLElement;
     if (diagramElement) {
       toPng(diagramElement)
-        .then((dataUrl) => {
+        .then(dataUrl => {
           saveAs(dataUrl, 'diagram.png');
         })
-        .catch((error) => {
+        .catch(error => {
           console.error('Erro ao gerar PNG:', error);
         });
     }
@@ -31,21 +31,43 @@ const DownloadButtons: React.FC<DownloadButtonsProps> = ({ svgContent }) => {
     const diagramElement = document.querySelector('.diagram-preview') as HTMLElement;
     if (diagramElement) {
       toPng(diagramElement)
-        .then((dataUrl) => {
-          const pdf = new jsPDF({
-            orientation: 'landscape', // Orientação para diagramas largos
-            unit: 'pt',
-            format: 'a4',
-          });
+        .then(dataUrl => {
+          const img = new Image();
+          img.src = dataUrl;
 
-          const imgProps = pdf.getImageProperties(dataUrl);
-          const pdfWidth = pdf.internal.pageSize.getWidth();
-          const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+          img.onload = () => {
+            const imgWidth = img.width;
+            const imgHeight = img.height;
 
-          pdf.addImage(dataUrl, 'PNG', 0, 0, pdfWidth, pdfHeight);
-          pdf.save('diagram.pdf');
+            const margin = 40;
+
+            const maxWidth = 1190 - margin * 2;
+            const maxHeight = 842 - margin * 2;
+
+            let scale = 1;
+            if (imgWidth > maxWidth || imgHeight > maxHeight) {
+              const scaleX = maxWidth / imgWidth;
+              const scaleY = maxHeight / imgHeight;
+              scale = Math.min(scaleX, scaleY);
+            }
+
+            const pdfWidth = imgWidth * scale;
+            const pdfHeight = imgHeight * scale;
+
+            const orientation = pdfWidth > pdfHeight ? 'landscape' : 'portrait';
+
+            const pdf = new jsPDF({
+              orientation: orientation,
+              unit: 'pt',
+              format: [pdfWidth + margin * 2, pdfHeight + margin * 2],
+            });
+
+            pdf.addImage(dataUrl, 'PNG', margin, margin, pdfWidth, pdfHeight);
+
+            pdf.save('diagram.pdf');
+          };
         })
-        .catch((error) => {
+        .catch(error => {
           console.error('Erro ao gerar PDF:', error);
         });
     }

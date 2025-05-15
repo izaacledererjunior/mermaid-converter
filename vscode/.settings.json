@@ -1,0 +1,31 @@
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "workbench.iconTheme": "vscode-icons",
+  "workbench.tree.renderIndentGuides": "always",
+  "workbench.tree.indent": 24,
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": false,
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "editor.wordWrap": "on",
+  "editor.wordWrapColumn": 80,
+  "files.associations": {
+    "*.tsx": "typescriptreact",
+    "*.ts": "typescript",
+    "*.js": "javascript",
+    "*.jsx": "javascriptreact",
+    "*.json": "jsonc"
+  },
+  "typescript.updateImportsOnFileMove.enabled": "always"
+}
