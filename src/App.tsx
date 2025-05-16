@@ -40,7 +40,6 @@ const App: React.FC = () => {
     setDiagramCode(code);
   };
 
-
   const [chatOpen, setChatOpen] = useState<boolean>(false);
   return (
     <ThemeProvider>
@@ -105,7 +104,7 @@ const App: React.FC = () => {
             </Paper>
 
             <Paper
-              sx={(theme) => ({
+              sx={theme => ({
                 flex: 1,
                 p: 2,
                 bgcolor: theme.palette.mode === 'dark' ? 'transparent' : 'background.paper',
@@ -159,7 +158,7 @@ const App: React.FC = () => {
                   bottom: -8,
                   left: -8,
                 },
-              }
+              },
             }}
             onClick={() => setChatOpen(true)}
           >

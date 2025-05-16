@@ -5,27 +5,34 @@ export interface Message {
   content: string;
 }
 
-// Configura a URL base da API
-const API_URL = import.meta.env.DEV
-  ? 'http://localhost:3001/api'
-  : 'https://mermaid-assistant-api.onrender.com/api';
-
-
 export const ChatService = {
-
   async sendMessage(messages: Message[]): Promise<string> {
     try {
-      const response = await axios.post(`${API_URL}/chat`, { messages });
+      console.log('Enviando requisição para servidor proxy');
+
+      const response = await axios.post(
+        '/api/chat',
+        { messages },
+        {
+          headers: { 'Content-Type': 'application/json' },
+          timeout: 30000,
+        }
+      );
+
       return response.data.message;
     } catch (error) {
-      console.error('Erro ao comunicar com a API:', error);
+      console.error('Erro ao comunicar com o servidor:', error);
+
+      if (axios.isAxiosError(error) && error.response) {
+        const errorMessage = error.response.data?.error || error.message;
+        throw new Error(errorMessage);
+      }
+
       throw new Error('Falha na comunicação com o serviço de IA');
     }
   },
 
-
   prepareMermaidPrompt(userMessage: string, currentDiagram?: string): Message[] {
-
     const systemPrompt: Message = {
       role: 'system',
       content: `Você é um assistente especializado em diagramas Mermaid.
@@ -34,24 +41,23 @@ export const ChatService = {
       \`\`\`mermaid
       seu-codigo-aqui
       \`\`\`
-      Seja conciso e focado em soluções práticas.`
+      Seja conciso e focado em soluções práticas.`,
     };
 
     const messages: Message[] = [systemPrompt];
 
-
     if (currentDiagram) {
       messages.push({
         role: 'user',
-        content: `Este é o diagrama em que estou trabalhando:\n\`\`\`mermaid\n${currentDiagram}\n\`\`\``
+        content: `Este é o diagrama em que estou trabalhando:\n\`\`\`mermaid\n${currentDiagram}\n\`\`\``,
       });
     }
 
     messages.push({
       role: 'user',
-      content: userMessage
+      content: userMessage,
     });
 
     return messages;
-  }
+  },
 };
