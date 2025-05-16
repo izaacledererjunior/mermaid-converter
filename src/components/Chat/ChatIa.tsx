@@ -1,10 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import {
   Box, Paper, TextField, IconButton, Typography,
-  List, ListItem, CircularProgress, Divider
+  List, ListItem, CircularProgress, Divider,
 } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 import SendIcon from '@mui/icons-material/Send';
 import { useTheme } from '../../context/ThemeContext';
+import { ChatService } from '../../api/iachat';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -14,9 +16,10 @@ interface Message {
 interface AIChatProps {
   diagramCode: string;
   onInsertCode: (code: string) => void;
+  onClose: () => void;
 }
 
-const AIChat: React.FC<AIChatProps> = ({ diagramCode, onInsertCode }) => {
+const AIChat: React.FC<AIChatProps> = ({ diagramCode, onInsertCode, onClose }) => {
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -128,9 +131,29 @@ const AIChat: React.FC<AIChatProps> = ({ diagramCode, onInsertCode }) => {
           p: 2,
           borderBottom: '1px solid',
           borderColor: 'divider',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
         }}
       >
         <Typography variant="h6">Assistente de Diagramas</Typography>
+        {onClose && (
+          <IconButton
+            onClick={onClose}
+            size="small"
+            aria-label="fechar chat"
+            sx={{
+              color: 'text.secondary',
+              '&:hover': {
+                color: 'text.primary',
+                bgcolor: 'action.hover',
+              }
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        )}
+
       </Box>
 
       <List
@@ -210,12 +233,14 @@ const AIChat: React.FC<AIChatProps> = ({ diagramCode, onInsertCode }) => {
           maxRows={4}
           size="small"
         />
+
         <IconButton
           color="primary"
           onClick={handleSend}
           disabled={isLoading}
         >
           {isLoading ? <CircularProgress size={24} /> : <SendIcon />}
+
         </IconButton>
       </Box>
     </Paper>

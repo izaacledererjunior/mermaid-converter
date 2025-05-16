@@ -6,6 +6,7 @@ import DiagramPreview from './components/Preview/DiagramPreview';
 import { ThemeProvider } from './context/ThemeContext';
 import { Header } from './components/Header/Header';
 import AIChat from './components/Chat/ChatIa';
+import { darkTheme } from './theme';
 
 const App: React.FC = () => {
   const [diagramCode, setDiagramCode] = useState<string>('');
@@ -37,8 +38,6 @@ const App: React.FC = () => {
 
   const handleInsertCode = (code: string) => {
     setDiagramCode(code);
-    // Opcional: fechar o chat após inserir
-    // setChatOpen(false);
   };
 
 
@@ -106,10 +105,10 @@ const App: React.FC = () => {
             </Paper>
 
             <Paper
-              sx={{
+              sx={(theme) => ({
                 flex: 1,
                 p: 2,
-                bgcolor: 'background.paper',
+                bgcolor: theme.palette.mode === 'dark' ? 'transparent' : 'background.paper',
                 border: '1px solid #4F4F4F',
                 borderRadius: 2,
                 display: 'flex',
@@ -118,7 +117,7 @@ const App: React.FC = () => {
                 minHeight: 0,
                 height: '100%',
                 overflow: 'auto',
-              }}
+              })}
             >
               <Typography variant="h5" color="text.primary" gutterBottom>
                 Pré-visualização
@@ -127,30 +126,46 @@ const App: React.FC = () => {
             </Paper>
           </Box>
         </Container>
-
-        {/* Botão flutuante para abrir o chat */}
-        <IconButton
-          color="primary"
-          aria-label="chat com assistente"
-          sx={{
-            position: 'fixed',
-            bottom: 24,
-            right: 24,
-            width: 56,
-            height: 56,
-            backgroundColor: 'primary.main',
-            color: 'white',
-            '&:hover': {
-              backgroundColor: 'primary.dark',
-            },
-            boxShadow: 3,
-          }}
-          onClick={() => setChatOpen(true)}
-        >
-          <ChatIcon />
-        </IconButton>
-
-        {/* Drawer lateral para o chat */}
+        {!chatOpen && (
+          <IconButton
+            color="primary"
+            aria-label="chat com assistente"
+            sx={{
+              position: 'fixed',
+              bottom: { xs: 16, sm: 24 },
+              right: { xs: 16, sm: 24 },
+              width: { xs: 48, sm: 56 },
+              height: { xs: 48, sm: 56 },
+              backgroundColor: 'primary.main',
+              color: 'white',
+              '&:hover': {
+                backgroundColor: 'primary.dark',
+              },
+              boxShadow: 3,
+              zIndex: 1300,
+              transition: 'all 0.2s ease-in-out',
+              '@media (max-height: 500px)': {
+                bottom: 12,
+                right: 12,
+                width: 40,
+                height: 40,
+              },
+              '@media (pointer: coarse)': {
+                '&::before': {
+                  content: '""',
+                  position: 'absolute',
+                  top: -8,
+                  right: -8,
+                  bottom: -8,
+                  left: -8,
+                },
+              }
+            }}
+            onClick={() => setChatOpen(true)}
+          >
+            <ChatIcon />
+          </IconButton>
+        )}
         <Drawer
           anchor="right"
           open={chatOpen}
@@ -165,6 +180,7 @@ const App: React.FC = () => {
           <AIChat
             diagramCode={diagramCode}
             onInsertCode={handleInsertCode}
+            onClose={() => setChatOpen(false)}
           />
         </Drawer>
       </Box>
