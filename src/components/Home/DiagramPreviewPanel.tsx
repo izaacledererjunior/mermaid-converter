@@ -8,7 +8,11 @@ interface DiagramPreviewPanelProps {
   sx?: object;
 }
 
-const DiagramPreviewPanel: React.FC<DiagramPreviewPanelProps> = ({ diagramCode, setSvgContent, sx }) => (
+const DiagramPreviewPanel: React.FC<DiagramPreviewPanelProps> = ({
+  diagramCode,
+  setSvgContent,
+  sx,
+}) => (
   <Paper sx={sx}>
     <Typography variant="h5" color="text.primary" gutterBottom>
       Pré-visualização

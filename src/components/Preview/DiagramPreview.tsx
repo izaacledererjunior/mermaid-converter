@@ -39,51 +39,13 @@ const DiagramPreview: React.FC<DiagramPreviewProps> = ({ diagramCode, setSvgCont
   }, [diagramCode, setSvgContent]);
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100%',
-        bgcolor: 'background.paper',
-        borderRadius: 2,
-        position: 'relative',
-        overflow: 'hidden',
-      }}
-    >
-      <Box
-        ref={diagramRef}
-        className="diagram-preview"
-        sx={{
-          flex: 1,
-          overflow: 'auto',
-          p: 2,
-        }}
-      >
-        {error && (
-          <Box
-            sx={{
-              color: 'red',
-              textAlign: 'center',
-              fontSize: '1rem',
-            }}
-          >
-            {error}
-          </Box>
-        )}
+    <Box sx={diagramPreviewSx}>
+      <Box ref={diagramRef} className="diagram-preview" sx={diagramSvgBoxSx}>
+        {error && <Box sx={diagramErrorSx}>{error}</Box>}
       </Box>
 
       {svgContent && (
-        <Box
-          sx={{
-            position: 'sticky',
-            bottom: 0,
-            left: 0,
-            bgcolor: 'background.paper',
-            p: 2,
-            boxShadow: '0 -1px 4px rgba(0,0,0,0.1)',
-            zIndex: 1,
-          }}
-        >
+        <Box sx={downloadButtonsSx}>
           <DownloadButtons svgContent={svgContent} />
         </Box>
       )}
@@ -92,3 +54,37 @@ const DiagramPreview: React.FC<DiagramPreviewProps> = ({ diagramCode, setSvgCont
 };
 
 export default DiagramPreview;
+
+// Estilos abaixo do componente
+
+const diagramPreviewSx = {
+  display: 'flex',
+  flexDirection: 'column',
+  height: '100%',
+  bgcolor: 'background.paper',
+  borderRadius: 2,
+  position: 'relative',
+  overflow: 'hidden',
+};
+
+const diagramSvgBoxSx = {
+  flex: 1,
+  overflow: 'auto',
+  p: 2,
+};
+
+const diagramErrorSx = {
+  color: 'red',
+  textAlign: 'center',
+  fontSize: '1rem',
+};
+
+const downloadButtonsSx = {
+  position: 'sticky',
+  bottom: 0,
+  left: 0,
+  bgcolor: 'background.paper',
+  p: 2,
+  boxShadow: '0 -1px 4px rgba(0,0,0,0.1)',
+  zIndex: 1,
+};

@@ -57,15 +57,8 @@ const Home: React.FC = () => {
             />
           </Box>
         </Container>
-        {!chatOpen && (
-          <ChatButton sx={chatButtonSx} onClick={() => setChatOpen(true)} />
-        )}
-        <Drawer
-          anchor="right"
-          open={chatOpen}
-          onClose={() => setChatOpen(false)}
-          sx={drawerSx}
-        >
+        {!chatOpen && <ChatButton sx={chatButtonSx} onClick={() => setChatOpen(true)} />}
+        <Drawer anchor="right" open={chatOpen} onClose={() => setChatOpen(false)} sx={drawerSx}>
           <AIChat
             diagramCode={diagramCode}
             onInsertCode={handleInsertCode}

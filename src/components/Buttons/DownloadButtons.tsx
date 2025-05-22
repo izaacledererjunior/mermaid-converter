@@ -38,7 +38,6 @@ const DownloadButtons: React.FC<DownloadButtonsProps> = ({ svgContent }) => {
           img.onload = () => {
             const imgWidth = img.width;
             const imgHeight = img.height;
-
             const margin = 40;
 
             const maxWidth = 1190 - margin * 2;

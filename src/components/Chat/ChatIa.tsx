@@ -1,19 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import {
-  Box,
-  Paper,
-  TextField,
-  IconButton,
-  Typography,
-  List,
-  ListItem,
-  CircularProgress,
-  Divider,
-} from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
-import SendIcon from '@mui/icons-material/Send';
+import { Paper, Divider } from '@mui/material';
 import { useTheme } from '../../context/ThemeContext';
 import { ChatService } from '../../api/iachat';
+import ChatHeader from './HeaderChat';
+import ChatMessages from './ListMessages';
+import ChatInput from './ChatInput';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -44,7 +35,6 @@ const AIChat: React.FC<AIChatProps> = ({ diagramCode, onInsertCode, onClose }) =
 
   const handleSend = async () => {
     if (!input.trim()) return;
-
     const userMessage = { role: 'user' as const, content: input };
     setMessages(prev => [...prev, userMessage]);
     setInput('');
@@ -59,7 +49,6 @@ const AIChat: React.FC<AIChatProps> = ({ diagramCode, onInsertCode, onClose }) =
       const mermaidCodeMatch = responseText.match(/```mermaid\n([\s\S]*?)\n```/);
       if (mermaidCodeMatch && mermaidCodeMatch[1]) {
         const extractedCode = mermaidCodeMatch[1];
-
         setMessages(prev => [
           ...prev,
           {
@@ -69,7 +58,6 @@ const AIChat: React.FC<AIChatProps> = ({ diagramCode, onInsertCode, onClose }) =
         ]);
       }
     } catch (error) {
-      console.error('Erro ao comunicar com a IA:', error);
       setMessages(prev => [
         ...prev,
         {
@@ -112,122 +100,21 @@ const AIChat: React.FC<AIChatProps> = ({ diagramCode, onInsertCode, onClose }) =
         bgcolor: 'background.paper',
       }}
     >
-      <Box
-        sx={{
-          p: 2,
-          borderBottom: '1px solid',
-          borderColor: 'divider',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Typography variant="h6">Assistente de Diagramas</Typography>
-        {onClose && (
-          <IconButton
-            onClick={onClose}
-            size="small"
-            aria-label="fechar chat"
-            sx={{
-              color: 'text.secondary',
-              '&:hover': {
-                color: 'text.primary',
-                bgcolor: 'action.hover',
-              },
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
-        )}
-      </Box>
-
-      <List
-        sx={{
-          flex: 1,
-          overflow: 'auto',
-          p: 2,
-          bgcolor: darkMode ? 'background.paper' : '#f5f7f9',
-        }}
-      >
-        {messages.map((msg, index) => (
-          <ListItem
-            key={index}
-            sx={{
-              display: 'flex',
-              justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start',
-              mb: 2,
-            }}
-          >
-            <Paper
-              onClick={() => handleMessageClick(msg.content)}
-              sx={{
-                maxWidth: '80%',
-                p: 2,
-                bgcolor:
-                  msg.role === 'user'
-                    ? darkMode
-                      ? 'primary.dark'
-                      : 'primary.light'
-                    : darkMode
-                      ? '#383838'
-                      : '#ffffff',
-                color: msg.role === 'user' ? 'primary.contrastText' : 'text.primary',
-                borderRadius: 2,
-                cursor: msg.content.includes('insert:') ? 'pointer' : 'default',
-              }}
-            >
-              <Typography
-                variant="body1"
-                sx={{
-                  whiteSpace: 'pre-wrap',
-                  '& code': {
-                    bgcolor: darkMode ? '#2d2d2d' : '#f1f1f1',
-                    p: 0.5,
-                    borderRadius: 1,
-                    fontFamily: 'monospace',
-                  },
-                }}
-              >
-                {msg.content.includes('insert:')
-                  ? msg.content.replace(
-                      /\[Clique aqui para inserir este diagrama no editor\]\(insert:[\s\S]*?\)/,
-                      'Clique aqui para inserir este diagrama no editor'
-                    )
-                  : msg.content}
-              </Typography>
-            </Paper>
-          </ListItem>
-        ))}
-        <div ref={messagesEndRef} />
-      </List>
-
+      <ChatHeader onClose={onClose} />
+      <ChatMessages
+        messages={messages}
+        darkMode={darkMode}
+        messagesEndRef={messagesEndRef}
+        onMessageClick={handleMessageClick}
+      />
       <Divider />
-
-      <Box
-        sx={{
-          p: 2,
-          display: 'flex',
-          alignItems: 'center',
-          gap: 1,
-        }}
-      >
-        <TextField
-          fullWidth
-          variant="outlined"
-          placeholder="Pergunte sobre diagramas Mermaid..."
-          value={input}
-          onChange={e => setInput(e.target.value)}
-          onKeyPress={handleKeyPress}
-          disabled={isLoading}
-          multiline
-          maxRows={4}
-          size="small"
-        />
-
-        <IconButton color="primary" onClick={handleSend} disabled={isLoading}>
-          {isLoading ? <CircularProgress size={24} /> : <SendIcon />}
-        </IconButton>
-      </Box>
+      <ChatInput
+        input={input}
+        setInput={setInput}
+        isLoading={isLoading}
+        onSend={handleSend}
+        onKeyPress={handleKeyPress}
+      />
     </Paper>
   );
 };

@@ -8,12 +8,7 @@ interface ChatButtonProps {
 }
 
 const ChatButton: React.FC<ChatButtonProps> = ({ onClick, sx }) => (
-  <IconButton
-    color="primary"
-    aria-label="chat com assistente"
-    sx={sx}
-    onClick={onClick}
-  >
+  <IconButton color="primary" aria-label="chat com assistente" sx={sx} onClick={onClick}>
     <ChatIcon />
   </IconButton>
 );
