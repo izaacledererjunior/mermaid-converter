@@ -55,8 +55,6 @@ const DiagramPreview: React.FC<DiagramPreviewProps> = ({ diagramCode, setSvgCont
 
 export default DiagramPreview;
 
-// Estilos abaixo do componente
-
 const diagramPreviewSx = {
   display: 'flex',
   flexDirection: 'column',
