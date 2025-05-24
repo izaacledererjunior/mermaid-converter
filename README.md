@@ -2,7 +2,8 @@
   <a name="readme-top"></a>
 
   <h1>Mermaid Converter</h1>
-
+  🇺🇸 <a href="README.en.md">Read in English</a> | 🇧🇷 <a href="README.md">Leia em Português</a>
+</p>
   <p>
      Conversor e editor visual de diagramas <b>Mermaid</b> com preview, exportação e assistente IA integrado.
   </p>
@@ -194,7 +195,7 @@ Este projeto está licenciado sob a MIT License. Veja o arquivo `LICENSE.txt` pa
 
 ## 📞 Contato
 
-- **Email:** izaacledererjunior@gmail.com
+- **Email:** brizaac@tutanota.com
 
 ---
 
