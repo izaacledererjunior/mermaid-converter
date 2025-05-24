@@ -34,6 +34,14 @@ Inclui um assistente IA (Gemini) para ajudar na geração e explicação de diag
 
 ---
 
+## 📺 Demonstração
+
+<p align="center">
+  <img src="./mermaid-converter.gif" alt="Demonstração do Mermaid Converter" width="700"/>
+</p>
+
+---
+
 ## 🚀 Como Rodar o Projeto Localmente
 
 Você pode rodar o projeto localmente usando **Node.js** ou via **Vercel CLI** para testar as funções serverless.
