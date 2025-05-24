@@ -127,7 +127,6 @@ Você pode rodar o projeto localmente usando **Node.js** ou via **Vercel CLI** p
 - [MUI (Material UI)](https://mui.com/)
 - [Mermaid.js](https://mermaid-js.github.io/)
 - [Vercel Serverless Functions](https://vercel.com/docs/functions)
-- [OpenAI API](https://platform.openai.com/)
 - [Google Gemini API](https://ai.google.dev/)
 
 ---
