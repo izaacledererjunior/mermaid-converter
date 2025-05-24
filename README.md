@@ -3,8 +3,6 @@
 
   <h1>Mermaid Converter</h1>
 
-🚧 **ATENÇÃO: ESTE PROJETO ESTÁ EM DESENVOLVIMENTO!** 🚧
-
   <p>
      Conversor e editor visual de diagramas <b>Mermaid</b> com preview, exportação e assistente IA integrado.
   </p>
